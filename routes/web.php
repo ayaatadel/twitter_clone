@@ -1,8 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-Use App\Http\Controllers\PostsController;
-Use App\Http\Controllers\UserController;
+use App\Http\Controllers\PostsController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +22,9 @@ Use App\Http\Controllers\UserController;
 // Route::get('create',[PostsController::class,'create'])->name('create');
 //  Route::post('show',[PostsController::class,'show'])->name('show');
 Route::resource('posts', PostsController::class);
+// Route::resource('profile', ProfileController::class);
+Route::get('profile', [ProfileController::class, 'index'])->name('profile.index');
+Route::get('profile/edit/{user}',  [ProfileController::class, 'edit'])->name('profile.edit');
 
 
 // Route::post('store',[PostsController::class,'store'])->name('store');
@@ -39,5 +43,4 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-require __DIR__.'/auth.php';
-
+require __DIR__ . '/auth.php';
