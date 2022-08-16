@@ -25,7 +25,7 @@ Route::resource('posts', PostsController::class);
 // Route::resource('profile', ProfileController::class);
 Route::get('profile', [ProfileController::class, 'index'])->name('profile.index');
 Route::get('profile/edit/{user}',  [ProfileController::class, 'edit'])->name('profile.edit');
-
+Route::put("update/{user}", [ProfileController::class, 'update'])->name('profile.update');
 
 // Route::post('store',[PostsController::class,'store'])->name('store');
 

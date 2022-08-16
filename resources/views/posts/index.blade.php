@@ -9,6 +9,7 @@
                         <div class="d-flex justify-between">
 
                             <div class="d-flex ">
+
                                 <img src="{{ $post->user->avatar_url }}" class="rounded" width="50px" alt="">
                                 <div class="">
                                     <div class="mr-2">
@@ -17,15 +18,21 @@
 
                                 </div>
                             </div>
+                            <a href="{{ route('posts.create') }}" class="btn  btn-info ml-3">Tweet</a>
+
                             @if (Auth::id() == $post->user_id)
                                 <div class="d-flex">
+
+
                                     <form action="{{ route('posts.destroy', $post) }}" method="POST">
                                         @csrf
                                         @method('delete')
-                                        <button type="submit" class="btn btn-sm btn-danger mr-2">Delete</button>
+                                        <button type="submit" style="color: black"
+                                            class="btn btn-danger mr-2">Delete</button>
                                     </form>
 
-                                    <a href="/posts/{{ $post->id }}/edit" class="btn btn-sm btn-info">Edit</a>
+                                    <a href="/posts/{{ $post->id }}/edit" class="btn  btn-info">Edit</a>
+
                                 </div>
                             @endif
                         </div>

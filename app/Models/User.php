@@ -23,9 +23,7 @@ class User extends Authenticatable
         'phone',
         'avatar',
         'email',
-        'password',
     ];
-
 
     /**
      * The attributes that should be hidden for serialization.
@@ -45,18 +43,18 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
+    protected $appends = ['avatar_url'];
     public function posts()
     {
         //$this->hasMany(Post::class,'user_id','id');
-       return $this->hasMany(Post::class);
+        return $this->hasMany(Post::class);
     }
-    public function getAvatarUrlAttribute($origin)
+    public function getAvatarUrlAttribute()
     {
-        if(!$origin){
+        if (!$this->avatar) {
             return asset('Images/default-avatar.png');
         }
-        return asset('storage/avatars/'.$this->avatar);
+        return asset('storage/avatars/' . $this->avatar);
         // 127.0.0.1/public/storage/avatars/ayat.jpg
 
         // // ayat.jpg

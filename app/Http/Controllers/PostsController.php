@@ -18,8 +18,8 @@ class PostsController extends Controller
      */
     public function index()
     {
-        $posts=Post::all();
-        return view('posts.index')->with('posts',$posts);
+        $posts = Post::all();
+        return view('posts.index')->with('posts', $posts);
     }
 
     /**
@@ -29,7 +29,7 @@ class PostsController extends Controller
      */
     public function create()
     {
-       return view('posts.create');
+        return view('posts.create');
     }
 
     /**
@@ -40,29 +40,29 @@ class PostsController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request,[
-            'body'=>'required',
-            'image'=>'nullable',
+        $this->validate($request, [
+            'body' => 'required',
+            'image' => 'nullable',
         ]);
 
-      $post=new Post;
-      $post->body=$request->input('body');
-      $post->img=$request->input('image');
-      $post->user_id=auth()->user()->id;
-      if($request->image){
-        $extension = $request->file('image')->getClientOriginalExtension();
-        // $image_name = Str::random(5).'.'.$extension;
-        $name = $request->file('image')->getClientOriginalName();
-        $image_name = $name.'.'.$extension;
-        Storage::disk('public')->putFileAs(
-            'posts_image/',
-            $request->file('image'),
-            $image_name
+        $post = new Post;
+        $post->body = $request->input('body');
+        $post->img = $request->input('image');
+        $post->user_id = auth()->user()->id;
+        if ($request->image) {
+            $extension = $request->file('image')->getClientOriginalExtension();
+            // $image_name = Str::random(5).'.'.$extension;
+            $name = $request->file('image')->getClientOriginalName();
+            $image_name = $name . '.' . $extension;
+            Storage::disk('public')->putFileAs(
+                'posts_image/',
+                $request->file('image'),
+                $image_name
             );
-        $post->img = $image_name;
-      }
-      $post->save();
-      return redirect('/posts')->with('success','Post Created');
+            $post->img = $image_name;
+        }
+        $post->save();
+        return redirect('/posts')->with('success', 'Post Created');
     }
 
     /**
@@ -73,8 +73,8 @@ class PostsController extends Controller
      */
     public function show($id)
     {
-        $post=Post::find($id);
-        return view('posts.show')->with('post',$post);
+        $post = Post::find($id);
+        return view('posts.show')->with('post', $post);
 
         // $product = product::with('productImages','comment')->find($request->id);
 
@@ -82,14 +82,14 @@ class PostsController extends Controller
         //      return $this->sendError('product not found ');
         //      }
         //    return $this->returnData('data', $product);
-///////////////////////////////////////////////////////////////////////////
-//    $post=Post::with('body','image')->find($request->id);
-//    if(is_null($post))
-//    {
-//     return ('Post Not Found');
-//    }
-//     return View('posts.show')->with('post','$post');
-     }
+        ///////////////////////////////////////////////////////////////////////////
+        //    $post=Post::with('body','image')->find($request->id);
+        //    if(is_null($post))
+        //    {
+        //     return ('Post Not Found');
+        //    }
+        //     return View('posts.show')->with('post','$post');
+    }
 
     /**
      * Show the form for editing the specified resource.
@@ -99,8 +99,8 @@ class PostsController extends Controller
      */
     public function edit($id)
     {
-        $post=Post::find($id);
-        return view('posts.edit')->with('post',$post);
+        $post = Post::find($id);
+        return view('posts.edit')->with('post', $post);
     }
 
     /**
@@ -110,35 +110,33 @@ class PostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,post $post)
+    public function update(Request $request, post $post)
     {
-       $this->validate($request ,[
-         'body'=>'required',
-         'image'=>'nullable'
-       ]);
+        $this->validate($request, [
+            'body' => 'required',
+            'image' => 'nullable'
+        ]);
 
-        $post->body=$request->input('body');
-
-       if($request->image)
-       {
+        $post->body = $request->input('body');
+        if ($request->image) {
             if (File::exists($post->image_url)) {
                 File::delete($post->image_url);
             }
             $extension = $request->file('image')->getClientOriginalExtension();
             // $image_name = Str::random(5).'.'.$extension;
             $name = $request->file('image')->getClientOriginalName();
-            $image_name = $name.'.'.$extension;
+            $image_name = $name . '.' . $extension;
 
             Storage::disk('public')->putFileAs(
                 'posts_image/',
                 $request->file('image'),
                 $image_name
-                );
+            );
             $post->img = $image_name;
         }
 
         $post->save();
-        return redirect('/posts')->with('success','Post updated');
+        return redirect('/posts')->with('success', 'Post updated');
     }
 
     /**
@@ -150,6 +148,6 @@ class PostsController extends Controller
     public function destroy(Post $post)
     {
         $post->delete();
-        return redirect('/posts')->with('success','Post Deleted successfully');
+        return redirect('/posts')->with('success', 'Post Deleted successfully');
     }
 }

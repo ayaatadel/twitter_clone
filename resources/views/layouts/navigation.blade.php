@@ -43,21 +43,17 @@
                         {{-- <form method="POST" action="{{ route('logout') }}"> --}}
 
                         <form method="POST">
-
                             @csrf
-
                             <x-dropdown-link :href="route('logout')"
                                 onclick="event.preventDefault();
                                                 this.closest('form').submit();">
                                 {{ __('Log Out') }}
                             </x-dropdown-link>
-                            {{-- @method('GET') --}}
-                            <x-dropdown-link :href="route('posts.index')"
-                                onclick="event.preventDefault();
-                                                this.closest('form').submit();">
-                                {{ __('Profile') }}
-                            </x-dropdown-link>
                         </form>
+                        <x-dropdown-link href="{{ route('profile.index') }}">
+
+                            {{ __('Profile') }}
+                        </x-dropdown-link>
                     </x-slot>
                 </x-dropdown>
             </div>
@@ -103,9 +99,12 @@
                                         this.closest('form').submit();">
                         {{ __('Log Out') }}
                     </x-responsive-nav-link>
-                    <x-responsive-nav-link :href="route('posts.index')"
+
+                    <x-responsive-nav-link :href="route('profile.index')"
                         onclick="event.preventDefault();
+
                                         this.closest('form').submit();">
+                        @method('GET')
                         {{ __('Profile') }}
                     </x-responsive-nav-link>
                 </form>
