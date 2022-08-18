@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class UserController extends Controller
 {
@@ -15,6 +17,18 @@ class UserController extends Controller
     {
         //
     }
+    //////////////////////////////////////////////////////////////
+
+    public function profile(User $user)
+    {
+        //dd($user);
+        return view('Profile.index')->with('user', $user);
+    }
+
+
+
+
+
 
     /**
      * Show the form for creating a new resource.
