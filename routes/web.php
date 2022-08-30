@@ -1,40 +1,44 @@
 <?php
 
+use App\Http\Controllers\FollowController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\LikesController;
+use App\Http\Controllers\CommentController;
 
 /*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
+
+Web Routes
+
 */
+////////////////// posts
+Route::resource('posts', PostsController::class)->middleware('auth');
 
-//Route::get('/home', [PageController::class, 'home'])->name('home');
 
-// Route::get('posts',[PostsController::class,'index'])->name('posts');
-// Route::get('create',[PostsController::class,'create'])->name('create');
-//  Route::post('show',[PostsController::class,'show'])->name('show');
-Route::resource('posts', PostsController::class);
-// Route::resource('profile', ProfileController::class);
+
+//////////////////////////////// profile
 Route::get('profile', [ProfileController::class, 'index'])->name('profile.index');
 Route::get('profile/edit/{user}',  [ProfileController::class, 'edit'])->name('profile.edit');
 Route::put("update/{user}", [ProfileController::class, 'update'])->name('profile.update');
 Route::get("user/{user}", [UserController::class, 'profile'])->name('user.profile');
-// Route::post('store',[PostsController::class,'store'])->name('store');
 
-//////////////////// posts
 
-// Route::get('posts', function () {
-//     return view('index.blade.php');
-// })->middleware(['auth'])->name('posts');
 
+/////////////////////// user
+Route::get('follow/{user}', [UserController::class, 'follow'])->name('user.follow');
+Route::get('followers/{user}', [UserController::class, 'follower'])->name('user.followers');
+Route::get("userFollow/{user}", [FollowController::class, 'userFollow'])->name('user.makeFollow');
+//////////////////// likes
+Route::get('post/like/{post}', [LikesController::class, 'like'])->name('post.like');
+
+
+///////////////////////// comments
+
+Route::post('comment/', [CommentController::class, 'store'])->name('post.comment');
+
+////////////////////////////////////////////////////
 Route::get('/', function () {
     return view('welcome');
 });

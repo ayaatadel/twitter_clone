@@ -21,6 +21,7 @@ class ProfileController extends Controller
     public function index()
     {
         $user = Auth::user();
+        //dd($user->following());
         return view('Profile.index')->with('user', $user);
         //  if(Auth::id()==)
     }
@@ -51,12 +52,4 @@ class ProfileController extends Controller
         // $data->save();
         return redirect()->route('profile.index')->with('success', 'profile Updated');
     }
-
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
 }

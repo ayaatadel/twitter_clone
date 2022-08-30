@@ -20,7 +20,14 @@ class Post extends Model
         //    return $this->belongsTo(User::class, 'id','user_id');
         return $this->belongsTo(User::class, 'user_id');
     }
-
+    public function likes()
+    {
+        return $this->hasMany(Like::class, 'post_id')->count();
+    }
+    public function comments()
+    {
+        return $this->hasMany(Comments::class, 'post_id');
+    }
     // getter
     public function getImageUrlAttribute()
     {

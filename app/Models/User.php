@@ -23,6 +23,7 @@ class User extends Authenticatable
         'phone',
         'avatar',
         'email',
+        'password'
     ];
 
     /**
@@ -62,5 +63,15 @@ class User extends Authenticatable
 
         //   // 127.0.0.1/public/storage/avatars/
         // return asset('storage/avatars/');
+    }
+    public function followers()
+    {
+        // people Follows me
+        return $this->belongsToMany('App\Models\User', 'users_followers', 'following_id', 'follower_id');
+    }
+
+    public function following()
+    {
+        return $this->belongsToMany('App\Models\User', 'users_followers', 'follower_id', 'following_id');
     }
 }

@@ -42,11 +42,10 @@
 
                         {{-- <form method="POST" action="{{ route('logout') }}"> --}}
 
-                        <form method="POST">
+                        <form method="POST" id="logout" action="{{ route('logout') }}">
                             @csrf
-                            <x-dropdown-link :href="route('logout')"
-                                onclick="event.preventDefault();
-                                                this.closest('form').submit();">
+                            <x-dropdown-link href="#"
+                                onclick="event.preventDefault();this.closest('#logout').submit();">
                                 {{ __('Log Out') }}
                             </x-dropdown-link>
                         </form>
@@ -93,6 +92,7 @@
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
+                    @method('GET')
 
                     <x-responsive-nav-link :href="route('logout')"
                         onclick="event.preventDefault();
@@ -100,11 +100,7 @@
                         {{ __('Log Out') }}
                     </x-responsive-nav-link>
 
-                    <x-responsive-nav-link :href="route('profile.index')"
-                        onclick="event.preventDefault();
-
-                                        this.closest('form').submit();">
-                        @method('GET')
+                    <x-responsive-nav-link :href="route('profile.index')">
                         {{ __('Profile') }}
                     </x-responsive-nav-link>
                 </form>

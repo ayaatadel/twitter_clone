@@ -13,8 +13,8 @@ class ChangePhoneCoulmnOnUsersTable extends Migration
      */
     public function up()
     {
-        Schema::table('users',function(Blueprint $table){
-            $table->string('phone')->nullable()->change();
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('phone')->nullable();
         });
     }
 
@@ -25,6 +25,5 @@ class ChangePhoneCoulmnOnUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropColumns('users', 'phone');
     }
 }

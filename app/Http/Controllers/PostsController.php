@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+
+use App\Models\User;
 use Illuminate\Support\Str;
 use Facade\FlareClient\View;
 use Illuminate\Http\Request;
+use App\Models\Comments;
+// use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use App\Http\Requests\StorePostRequest;
@@ -16,8 +20,14 @@ class PostsController extends Controller
 
     public function index()
     {
-        $posts = Post::all();
-        return view('posts.index')->with('posts', $posts);
+        $user = Auth::id();
+
+        $following = Auth::user()->following()->pluck('id')->toArray();
+        array_push($following, $user);
+
+        $posts = Post::whereIn('user_id', $following)->orderby('created_at', "desc")->get();
+
+        return view('posts.index', ['posts' => $posts]);
     }
 
 
@@ -29,6 +39,7 @@ class PostsController extends Controller
 
     public function store(StorePostRequest $request)
     {
+
         // retreive all validate data
         $data = $request->validated();
         $data['user_id'] = Auth::id();

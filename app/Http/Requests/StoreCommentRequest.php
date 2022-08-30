@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreProfileRequest extends FormRequest
+class StoreCommentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -16,15 +16,16 @@ class StoreProfileRequest extends FormRequest
         return true;
     }
 
-
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
     public function rules()
     {
         return [
-            'name' => 'required',
-            "avatar" => "nullable",
-            'age' => 'required',
-            'phone' => 'nullable',
-            'email' => 'required|email'
+            'body' => 'sometimes|max:140',
+
         ];
     }
 }

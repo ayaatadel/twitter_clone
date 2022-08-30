@@ -2,65 +2,31 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Models\UsersFollowers;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Models\UsersFollowers;
 
-class UserController extends Controller
+class FollowController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-    //////////////////////////////////////////////////////////////
 
-    public function profile(User $user)
+
+
+    public function userFollow(User $user)
     {
-        $text = 'Follow';
         $follower_id = Auth::id();
         $following_id = $user->id;
         $temp = UsersFollowers::where('follower_id', $follower_id)->where('following_id', $following_id);
         if ($temp->first() != null) {
-            $text = 'UnFollow';
+            $temp->delete();
+        } else {
+            UsersFollowers::create([
+                'follower_id' => $follower_id,
+                'following_id' => $following_id
+            ]);
         }
-
-        return view('Profile.index', ['user' => $user, 'text' => $text]);
-    }
-
-    public function follow(User $user)
-    {
-        // people i follow
-        $following = $user->following()->orderBy('id')->get();
-        return view('followers.following', ['user' => $user, 'following' => $following]);
-    }
-
-    public function follower(User $user)
-    {
-        // people follow me
-        $followers = $user->followers()->orderBy('id')->get();
-        // dd($followers);
-        return view('followers.followers', ['user' => $user, 'followers' => $followers]);
-    }
-
-
-
-
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return redirect()->back();
     }
 
     /**

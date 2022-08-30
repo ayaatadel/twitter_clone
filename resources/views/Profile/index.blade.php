@@ -1,15 +1,35 @@
 @extends('layouts.app')
 @section('content')
+
+    {{-- @if ($user->temp != null) --}}
     <div class='row  mb-1 mt-1'>
         <div class="form-group">
             <div class="row">
 
                 <div class="d-flex align-items-center">
-                    <div class="col-4">
-                        <img src="{{ $user->avatar_url }}"
-                            style="border-radius: 50% ; object-fit:cover; width:100px;height:100px" alt="">
-                    </div>
+                    <div class="row mb-1">
+                        <div class="col-6">
+                            <img src="{{ $user->avatar_url }}"
+                                style="border-radius: 50% ; object-fit:cover; width:100px;height:100px" alt="">
+                        </div>
+                        @if (Auth::id() != $user->id)
+                            <div class="col-4">
+                                <a class="btn btn-info" href="{{ route('user.makeFollow', $user) }}">
+                                    {{ $text }}
+                                </a>
+                            </div>
+                        @endif
+                        <div class="row mt-1 mb-2">
+                            <div class="col-3 mx-2 ml-2 ">
+                                <a href="{{ route('user.follow', $user) }}"> following</a>
 
+                            </div>
+                            <div class="col-3 mx-2 ml-2 ">
+                                <a href="{{ route('user.followers', $user) }}"> followers</a>
+
+                            </div>
+                        </div>
+                    </div>
                     <div class="col-5">
 
                         <div class="row">
@@ -47,4 +67,5 @@
             @endforeach
         @endif
     </div>
+    {{-- @endif --}}
 @endsection
