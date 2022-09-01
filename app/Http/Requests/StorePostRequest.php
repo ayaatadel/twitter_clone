@@ -16,7 +16,7 @@ class StorePostRequest extends FormRequest
     {
         return [
             'body' => 'required|max:140',
-            'image' => 'nullable',
+            'images' => 'nullable',
         ];
     }
     public function messages()

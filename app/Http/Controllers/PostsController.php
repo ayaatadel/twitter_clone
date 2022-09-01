@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\PostImages;
 
 use App\Models\User;
 use Illuminate\Support\Str;
@@ -41,13 +42,20 @@ class PostsController extends Controller
     {
 
         // retreive all validate data
+        // dd($request->all());
         $data = $request->validated();
         $data['user_id'] = Auth::id();
-        if ($request->image) {
-            $image = $this->uploadImage($request, "posts_image",  'image');
-            $data['img'] = $image;
+        $post = Post::create($data);
+
+        if ($request->images) {
+            foreach ($request->images as $key => $image) {
+                $image = $this->uploadImage($request, "posts_image",  $request->file('images')[$key], 'images');
+                $new_image = new PostImages();
+                $new_image->img_url = $image;
+                $new_image->post_id = $post->id;
+                $new_image->save();
+            }
         }
-        Post::create($data);
         return redirect('/posts')->with('success', 'Post Created');
     }
 

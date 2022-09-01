@@ -17,7 +17,6 @@ class Post extends Model
 
     public function user()
     {
-        //    return $this->belongsTo(User::class, 'id','user_id');
         return $this->belongsTo(User::class, 'user_id');
     }
     public function likes()
@@ -29,8 +28,13 @@ class Post extends Model
         return $this->hasMany(Comments::class, 'post_id');
     }
     // getter
-    public function getImageUrlAttribute()
+    // public function getImageUrlAttribute()
+    // {
+    //     return asset('storage/' . $this->img);
+    // }
+
+    public function images()
     {
-        return asset('storage/' . $this->img);
+        return $this->hasMany(PostImages::class, 'post_id');
     }
 }

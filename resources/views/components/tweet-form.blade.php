@@ -10,7 +10,9 @@
         </div>
         <div class="form-group mt-2">
             <div class="d-flex" style="justify-content: space-between;">
-                <input type='file' name="image">
+                {{-- <input type='file' name="image"> --}}
+                <input type="file" name="images[]" multiple>
+
                 <button class="btn btn-primary" style="color: black" type="submit"> tweet</button>
             </div>
         </div>

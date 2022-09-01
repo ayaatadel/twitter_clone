@@ -64,8 +64,14 @@
             </div>
             <div class="row">
                 <div class="ml-2 mt-3">
-                    {{-- @dump($post->image_url) --}}
-                    <img src="{{ $post->image_url }}" class="rounded" width="150px" alt="">
+                    {{-- @dump($post->images) --}}
+                    @if (count($post->images) >= 1)
+                        @foreach ($post->images as $img)
+                            {{-- @dd($img) --}}
+                            <img src="{{ asset('storage/' . $img->img_url) }}" class="rounded" width="150px"
+                                alt="">
+                        @endforeach
+                    @endif
 
                 </div>
             </div>

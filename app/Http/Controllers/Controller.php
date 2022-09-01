@@ -13,12 +13,12 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    protected function uploadImage(Request $request, string $folder = "", string $input = '')
+    protected function uploadImage(Request $request, string $folder = "", string $input = '', string $name = '')
     {
-        if ($request->has($input)) {
+        if ($request->has($name)) {
             $file_name =  Storage::disk('public')->putFile(
                 $folder,
-                $request->file($input),
+                $input,
             );
 
             return $file_name;
