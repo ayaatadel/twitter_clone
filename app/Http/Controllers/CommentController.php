@@ -10,19 +10,6 @@ use App\Models\Comments;
 
 class CommentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-
-
-
-    public function create()
-    {
-        //
-    }
-
     public function store(StoreCommentRequest $request)
     {
         $comment = $request->validated();
@@ -32,12 +19,5 @@ class CommentController extends Controller
         Comments::create($comment);
 
         return redirect()->back();
-    }
-
-
-
-    public function destroy($id)
-    {
-        //
     }
 }

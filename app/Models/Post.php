@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Post extends Model
 {
@@ -36,5 +37,9 @@ class Post extends Model
     public function images()
     {
         return $this->hasMany(PostImages::class, 'post_id');
+    }
+    public function retweets()
+    {
+        return $this->hasMany(Retweets::class, 'post_id');
     }
 }

@@ -1,12 +1,13 @@
 <?php
 
-use App\Http\Controllers\FollowController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PostsController;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LikesController;
+use App\Http\Controllers\PostsController;
+use App\Http\Controllers\FollowController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RetweetController;
 
 /*
 
@@ -32,6 +33,8 @@ Route::get('followers/{user}', [UserController::class, 'follower'])->name('user.
 Route::get("userFollow/{user}", [FollowController::class, 'userFollow'])->name('user.makeFollow');
 //////////////////// likes
 Route::get('post/like/{post}', [LikesController::class, 'like'])->name('post.like');
+//////////////////////////////// retweet
+Route::get('post/retweet/{post}', [RetweetController::class, 'retweet'])->name('post.retweet');
 
 
 ///////////////////////// comments

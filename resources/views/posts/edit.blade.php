@@ -19,7 +19,8 @@
 
                     <label>Post Body</label><br>
                     <textarea name="body" class='form-control'>{{ $post->body }} </textarea> <br>
-                    <input type='file' name="img">
+                    <input type='file' name="images[]" multiple>
+                    {{-- <input type="file" name="img" > --}}
                     <button class="btn btn-info" type="submit">Update</button>
                     <a class="btn  btn-info" href="{{ route('posts.index') }}">Back</a>
 

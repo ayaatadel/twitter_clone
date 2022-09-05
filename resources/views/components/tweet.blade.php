@@ -3,26 +3,27 @@
 ])
 
 @isset($post)
-    <div class="row my-2">
-        <div class="row mb-3">
-            <div class="d-flex align-items-center" style="justify-content: space-between;">
-                <div class="col-md-10">
+
+
+    <div class="tweet-wrap">
+        <div class="tweet-header row">
+            <div class="col-md-1">
+                <a href="{{ route('user.profile', $post->user) }}">
+                    <img src="{{ $post->user->avatar_url }}" alt="" class="avator" />
+                </a>
+            </div>
+            <div class="col-md-11 tweet-header-info d-flex">
+                <div class="col-md-11">
                     <a href="{{ route('user.profile', $post->user) }}">
-                        <div class="row">
-                            <div class="col-md-2">
-                                <img src="{{ $post->user->avatar_url }}"
-                                    style="border-radius: 50% ; object-fit:cover; width:100px;height:100px" alt="">
-                            </div>
-                            <div class="col-md-10">
-                                <span>{{ $post->user->name }}</span>
-                                <div class="">
-                                    {{ $post->created_at }}
-                                </div>
-                            </div>
-                        </div>
+                        {{ $post->user->name }} <span>{{ optional($post->created_at)->diffForHumans() }} </span>
+                    </a>
+                    <a href={{ route('posts.show', $post) }}>
+                        <p>
+                            {{ $post->body }}
+                        </p>
                     </a>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-1">
 
                     @if (Auth::id() == $post->user_id)
                         <form action="{{ route('posts.destroy', $post->id) }}" method="POST">
@@ -53,43 +54,72 @@
                     @endif
                 </div>
             </div>
-
         </div>
-
-        <a href={{ route('posts.show', $post) }}>
-            <div class="row">
-                <div class="ml-2 mt-2 mp-5">
-                    {{ $post->body }}
-                </div>
-            </div>
-            <div class="row">
-                <div class="ml-2 mt-3">
-                    {{-- @dump($post->images) --}}
-                    @if (count($post->images) >= 1)
-                        @foreach ($post->images as $img)
-                            {{-- @dd($img) --}}
-                            <img src="{{ asset('storage/' . $img->img_url) }}" class="rounded" width="150px"
-                                alt="">
+        <div class="tweet-img-wrap">
+            <a href={{ route('posts.show', $post) }}>
+                <div class="container">
+                    <div class="row">
+                        @foreach ($post->images as $image)
+                            <div class="col-md-4">
+                                <img src="{{ asset('storage/' . $image->img_url) }}" alt="" class="tweet-img" />
+                            </div>
                         @endforeach
-                    @endif
-
+                    </div>
                 </div>
-            </div>
-        </a>
-        <div class="row ml-3 mt-3 ">
-            <a class="btn btn-info btn-sm  col-1" href="{{ route('post.like', $post) }}">
-                like({{ $post->likes() }})
             </a>
         </div>
+        <div class="tweet-info-counts">
+            <a href={{ route('posts.show', $post) }}>
+                <div class="comments">
+                    <svg class="feather feather-message-circle sc-dnqmqq jxshSx" xmlns="http://www.w3.org/2000/svg"
+                        width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path
+                            d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z">
+                        </path>
+                    </svg>
+                    <div class="comment-count">{{ count($post->comments) }}</div>
+                </div>
+            </a>
+            <a href="{{ route('post.retweet', $post) }}">
+                <div class="retweets ">
+                    <svg class="
+                @if (App\Models\Retweets::where('user_id', $post->user->id)->where('post_id', $post->id)->first() != null) text-info @endif
+                feather feather-repeat sc-dnqmqq jxshSx"
+                        xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        aria-hidden="true">
+                        <polyline points="17 1 21 5 17 9"></polyline>
+                        <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+                        <polyline points="7 23 3 19 7 15"></polyline>
+                        <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+                    </svg>
+                    <div class="retweet-count">{{ count($post->retweets) }}</div>
+                </div>
+            </a>
+            <div class="likes">
+                <a href="{{ route('post.like', $post) }}">
+                    <svg class="
+                    @if (\App\Models\Like::where('user_id', auth()->user()->id)->where('post_id', $post->id)->first() != null) text-danger @endif
+                        feather feather-heart sc-dnqmqq jxshSx"
+                        xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        aria-hidden="true">
+                        <path
+                            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+                        </path>
+                    </svg>
+                </a>
+                <div class="likes-count">{{ $post->likes() }}</div>
+            </div>
 
+        </div>
         <div class="row ml-2 mt-3">
             @foreach ($post->comments as $comment)
                 <x-comment :comment="$comment"></x-comment>
             @endforeach
 
         </div>
-        {!! $slot !!}
-
     </div>
-    <hr>
+
 @endisset

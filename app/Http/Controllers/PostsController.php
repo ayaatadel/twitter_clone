@@ -79,21 +79,30 @@ class PostsController extends Controller
 
         $data = $request->validated();
         $data['user_id'] = Auth::id();
-        if ($request->img) {
-            $data['img'] = $this->uploadImage($request, "posts_image", 'img');
-            // dd($data['img']);
+        $post = Post::findOrFail($id);
+        // $post = Post::create($data);
+        // if ($request->img) {
+        //     $data['img'] = $this->uploadImage($request, "posts_image", 'img');
+        //     // dd($data['img']);
+        // }
+        if ($request->images) {
+            $post->images->each(function ($image) {
+                $image->delete();
+            });
+            foreach ($request->images as $key => $image) {
+                $image = $this->uploadImage($request, "posts_image",  $request->file('images')[$key], 'images');
+                $new_image = new PostImages();
+                $new_image->img_url = $image;
+                $new_image->post_id = $post->id;
+                $new_image->save();
+            }
         }
 
-        $post = Post::findOrFail($id);
+
         $post->update($data);
         $post->save();
         return redirect('/posts')->with('success', 'Post updated');
     }
-
-
-
-
-
 
 
     public function destroy(Post $post)
