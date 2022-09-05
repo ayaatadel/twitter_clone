@@ -78,8 +78,8 @@
     <hr>
 
     <div class="row mt-4">
-        @if (count($posts) != 0)
-            @foreach ($posts as $post)
+        @if (count($user->posts) != 0)
+            @foreach ($user->posts as $post)
                 <x-tweet :post="$post"></x-tweet>
             @endforeach
         @endif
